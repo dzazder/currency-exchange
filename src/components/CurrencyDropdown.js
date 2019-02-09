@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import DICTIONARIES from '../const.js';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import '../styles/currency-flags.min.css';
+import CurrencyElement from './CurrencyElement';
 
 class CurrencyDropdown extends Component {
     constructor(props) {
@@ -19,8 +21,10 @@ class CurrencyDropdown extends Component {
 
     render() {
         let currencies = DICTIONARIES.CURRENCIES;
-        let optionItems = currencies.map((currency) =>
-            <MenuItem key={currency.id} value={currency.name}>{currency.name}</MenuItem>);
+        let optionItems = currencies.map((c) =>
+            <MenuItem key={c.id} value={c.name}>
+                <CurrencyElement currency={c.name} />
+            </MenuItem>);
 
         return(
             <Select

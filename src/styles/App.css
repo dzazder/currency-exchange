@@ -30,3 +30,7 @@
     transform: rotate(360deg);
   }
 }
+
+.currency-flag {
+  margin: 0px 5px;
+}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CurrencyDropdown from './CurrencyDropdown';
+import CurrencyElement from './CurrencyElement';
 import { Button } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -89,8 +90,8 @@ class CurrencyToCurrency extends Component {
                             <TableBody>
                             {rows.map(row => (
                                 <TableRow key={row.base}>
-                                    <TableCell align="right">{row.base} {this.state.baseCurrency}</TableCell>
-                                    <TableCell align="left">{row.result} {this.state.resultCurrency}</TableCell>
+                                    <TableCell align="right">{row.base} <CurrencyElement currency={this.state.baseCurrency} /></TableCell>
+                                    <TableCell align="left">{row.result} <CurrencyElement currency={this.state.resultCurrency} /></TableCell>
                                 </TableRow>
                             ))}
                             </TableBody>
