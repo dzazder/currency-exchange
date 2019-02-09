@@ -2,18 +2,16 @@ import React, { Component } from 'react';
 import CurrencyDropdown from './CurrencyDropdown';
 import CurrencyElement from './CurrencyElement';
 import { Button } from '@material-ui/core';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
+import TextField from '@material-ui/core/TextField';
 
-class CurrencyToCurrency extends Component {
+class AmountCalculator extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             baseCurrency: "EUR",
             resultCurrency: "PLN",
+            toBuy: 10,
             result: null,
             error: null,
             isCalculating: false
@@ -28,6 +26,7 @@ class CurrencyToCurrency extends Component {
         switch (fieldId) {
             case "currFrom": this.setState({ baseCurrency: value }); break;
             case "currTo": this.setState({ resultCurrency: value }); break;
+            case "txtCurrTo": this.setState({ toBuy: value}); break;
         }
         this.setState({
             result: null
@@ -60,14 +59,6 @@ class CurrencyToCurrency extends Component {
     }
 
     render() {
-        var rows = [
-            {"base": 1, "result": this.calculateResult(1)},
-            {"base": 5, "result": this.calculateResult(5)},
-            {"base": 10, "result": this.calculateResult(10)},
-            {"base": 100, "result": this.calculateResult(100)},
-            {"base": 1000, "result": this.calculateResult(1000)}
-        ];
-
         let resultContainer;
         if (this.state.isCalculating) {
             resultContainer = <div>Calculating...</div>
@@ -78,23 +69,14 @@ class CurrencyToCurrency extends Component {
                 <div>
                 {this.state.result != null &&
                     <p>
-                        <span>Result: </span>
+                        <span>Exchange rate: </span>
                         <span>{this.state.result}</span>
                     </p>
                 }
                 </div>
                 {this.state.result != null &&
                     <div>
-                        <Table style={{ width: 400, margin: "0 auto" }}>
-                            <TableBody>
-                            {rows.map(row => (
-                                <TableRow key={row.base}>
-                                    <TableCell align="right">{row.base} <CurrencyElement currency={this.state.baseCurrency} /></TableCell>
-                                    <TableCell align="left">{row.result} <CurrencyElement currency={this.state.resultCurrency} /></TableCell>
-                                </TableRow>
-                            ))}
-                            </TableBody>
-                        </Table>
+                        You need: {this.calculateResult(this.state.toBuy)} <CurrencyElement currency={this.state.resultCurrency} />
                     </div>
                 }
             </div>;
@@ -102,14 +84,19 @@ class CurrencyToCurrency extends Component {
 
         return(
             <div>
-                <h3>Check the course</h3>
+                <h3>Amount Calculator</h3>
                 <div>
-                    <span>From: </span>
+                    <span>I have: </span>
                     <CurrencyDropdown id="currFrom" onChange={this.handleFieldChange} selectedCurrency={this.state.baseCurrency} />
-                    <span>To:</span>
+                    <span> and I want to buy:</span>
+                    <TextField
+                        id="txtCurrTo"
+                        value={this.state.toBuy}
+                        onChange={this.handleFieldChange}
+                        margin="normal" />
                     <CurrencyDropdown id="currTo" onChange={this.handleFieldChange} selectedCurrency={this.state.resultCurrency} />
                     <Button variant="contained" color="primary" onClick={this.checkRate}>
-                        Check the course
+                        Calculate
                     </Button>
                 </div>
                 {resultContainer}
@@ -118,4 +105,4 @@ class CurrencyToCurrency extends Component {
     }
 }
 
-export default CurrencyToCurrency; 
+export default AmountCalculator;
